@@ -61,7 +61,10 @@ RUN apt-get install --no-install-recommends -y \
 		php-pear && \
 		php --version && \
 		php -m
-		
+
+# Need to change some # to ; in the module configfiles.
+RUN find /etc/php5/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
+
 # Tidy up
 RUN apt-get -y autoremove && apt-get clean && apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
